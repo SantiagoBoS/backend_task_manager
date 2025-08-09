@@ -6,10 +6,13 @@ export class CreateTaskDto {
   @IsNotEmpty()
   title: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   description?: string;
 
   @IsOptional()
   @IsIn(['pending', 'in_progress', 'completed']) //Validacion del estado
   status?: 'pending' | 'in_progress' | 'completed';
+
+  @IsNotEmpty({ message: 'El deviceId es obligatorio' })
+  deviceId: string;
 }

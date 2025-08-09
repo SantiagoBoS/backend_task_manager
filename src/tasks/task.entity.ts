@@ -18,4 +18,8 @@ export class Task {
     default: 'pending',
   })
   status: 'pending' | 'in_progress' | 'completed';
+
+  //Para guardar el id del dispositivo
+  @Column()
+  deviceId: string;
 }

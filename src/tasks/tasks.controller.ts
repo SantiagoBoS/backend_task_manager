@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -11,8 +21,8 @@ export class TasksController {
   //Traer todas las tareas
   //GET: /tasks
   @Get()
-  findAll() {
-    return this.tasksService.findAll();
+  findAll(@Query('deviceId') deviceId: string) {
+    return this.tasksService.findAll(deviceId);
   }
 
   //Creacion de una nueva tarea
@@ -32,7 +42,7 @@ export class TasksController {
   //Elimacion
   //DELETE: /tasks/:id
   @Delete(':id')
-  delete(@Param('id', ParseIntPipe) id: number) {
-    return this.tasksService.delete(id);
+  delete(@Param('id', ParseIntPipe) id: number, @Query('deviceId') deviceId: string) {
+    return this.tasksService.delete(id, deviceId);
   }
 }

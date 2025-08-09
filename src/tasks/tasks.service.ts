@@ -13,9 +13,9 @@ export class TasksService {
     private taskRepository: Repository<Task>,
   ) {}
 
-  //Busca todas las tareas
-  findAll(): Promise<Task[]> {
-    return this.taskRepository.find();
+  //Obtener el id del dispotivo y buscar las tareas segun el dispositivo
+  async findAll(deviceId: string): Promise<Task[]> {
+    return this.taskRepository.find({ where: { deviceId } });
   }
 
   //Crea
@@ -27,7 +27,7 @@ export class TasksService {
   //Actualiza una tarea existente y valida que no lo devuelva null
   async update(id: number, data: UpdateTaskDto): Promise<Task> {
     await this.taskRepository.update(id, data);
-    const task = await this.taskRepository.findOne({ where: { id } });
+    const task = await this.taskRepository.findOne({ where: { id, deviceId: data.deviceId } });
     if (!task) {
       throw new Error(`La tarea con el ${id} no fué encontrada.`);
     }
@@ -35,7 +35,7 @@ export class TasksService {
   }
 
   //Elimina
-  async delete(id: number): Promise<void> {
-    await this.taskRepository.delete(id);
+  async delete(id: number, deviceId: string): Promise<void> {
+    await this.taskRepository.delete({ id, deviceId });
   }
 }
