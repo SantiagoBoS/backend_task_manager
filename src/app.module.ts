@@ -13,13 +13,17 @@ import { TasksModule } from './tasks/tasks.module';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
+      url: process.env.DATABASE_URL,
       host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT ?? `5432`, 10),
+      /* port: parseInt(process.env.DB_PORT ?? `5432`, 10),
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
+      database: process.env.DB_NAME, */
       autoLoadEntities: true,
       synchronize: true, //WARNING: Solo para desarrollo, no usar en producción
+      ssl: {
+        rejectUnauthorized: false,
+      },
     }),
     TasksModule,
   ],
